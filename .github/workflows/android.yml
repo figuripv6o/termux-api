@@ -1,0 +1,47 @@
+name: 🔥 BUZZO Android CI 🔥
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  buzzo_build:
+    name: 🚀 BUZZO Build Pipeline
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🔄 Check out the Buzzo Codebase
+        uses: actions/checkout@v4
+
+      - name: ☕ Inject that Smooth JDK 11 Buzz
+        uses: actions/setup-java@v4
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: 🛠️ Set Gradle on Fire
+        run: chmod +x gradlew
+
+      - name: 🧪 Build and Buzz with Gradle
+        run: ./gradlew build --stacktrace --info
+
+      - name: 📦 Zip the Juice (Optional)
+        uses: actions/upload-artifact@v4
+        with:
+          name: buzzo-apk-drop
+          path: app/build/outputs/apk/**/*.apk
+
+      - name: 🧠 Buzzo Memory Cache Boost (Optional)
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            gradle-${{ runner.os }}-
+
+# 💘 Certified BUZZO Edition — FDF
